@@ -5,6 +5,14 @@ import pandas as pd
 # paths
 GENES_PATH = "../data/pdx/List of Genes Differentially Expressed upon Different Treatments.xlsx"
 PDX_PATH = "../data/pdx/Human_matrix_DESEQ2normalized_removedlowlyexpressedgenes.xlsx"
+PATIENTS_PATH = "../data/patients/TCGA_ALL_Samples_log_Normalized GS.xlsx"
+PATIENTS_PATH_2 = ("../data/patients/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__"
+                   "unc_edu__Level_3__RSEM_genes_normalized__data.data.txt")
+
+"""("../data/patients/gdac.broadinstitute.org_BRCA.Merge_rnaseqv2__"
+    "illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__"
+    "data.Level_3.2016012800.0.0.tar.gz")"""
+
 
 def load_genes():
     """Load raw information about the genes"""
@@ -17,7 +25,7 @@ def load_genes():
         GENES_PATH,
         names=multi_index,
         skiprows=[0, 1],
-        usecols=[1, 2, 4, 5, 7, 8]
+        usecols=[1, 2, 4, 5, 7, 8],
     )
 
 
@@ -33,8 +41,32 @@ def load_pdx(genes):
     pdx = pd.read_excel(
         PDX_PATH,
         index_col=0,
-        usecols=[1] + list(range(4, 46))
+        usecols=[1] + list(range(4, 46)),
     )
-    pdx = pdx.transpose()
-    return pdx[genes]
+    
+    return pdx.transpose()[genes]
 
+
+def load_patients(genes):
+    """Load patient data (part 1), only retaining certain genes"""
+    patients = pd.read_excel(
+        PATIENTS_PATH,
+        index_col=0,
+    )
+    
+    return patients.transpose()[genes]
+
+
+def load_patients2(genes):
+    """Load patient data (part 1), only retaining certain genes"""
+    patients = pd.read_csv(
+        PATIENTS_PATH_2,
+        sep="\t",
+        index_col=0,
+        skiprows=1,
+    )
+    
+    # remove number identifiers following the gene name
+    patients.index = patients.index.str.split("|").map(lambda x: x[0])
+    
+    return patients.transpose()[genes]
