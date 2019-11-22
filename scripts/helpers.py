@@ -127,22 +127,28 @@ def load_pdx():
 
         # Remove control subjects and subjects exposed to two treatments
         pdx = pdx[~pdx.index.str.contains(r"\+|CTRL")]
+        
+        index_split = pdx.index.str.lower().str.rsplit("_", 1)
 
         # Transform the index into a multiindex
         # First level:  treatments (p4, dht, e2)
         # Second level: subject id
         pdx.index = (
-            pdx.index.str.lower().str.rsplit("_", 1)
+            index_split
             .map(lambda x: (x[1], x[0]))
             .set_names(['treatment', 'id'])
         )
         
         # Sort gene names alphabetically
         # since they are not sorted beforehand
-        pdx.columns = pdx.columns.sort_values().set_names('gene')
+        pdx.columns = pdx.columns.sort_values().set_names(None)
         
-        # Sort by treatment
-        pdx = pdx.sort_values('treatment')
+        # Add label
+        labels = {"dht": 0, "p4": 1, "e2": 2}
+        pdx.insert(0, "label", index_split.map(lambda x: labels[x[1]]))
+        
+        # Sort by label
+        pdx = pdx.sort_values("label")
         
         pdx.to_pickle(PDX_PATH_PKL)    
         return pdx
