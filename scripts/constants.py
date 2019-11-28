@@ -5,7 +5,7 @@ TREATMENTS = ["dht", "e2", "p4", "ctrl"]
 UP_DOWN = ["up", "down"]
 LABELS = dict(zip(HORMONES, [0, 1, 2]))
 LABELS_TREAT = dict(zip(TREATMENTS, [0, 1, 2, 3]))
-CORR_THRESHOLD = 0.6
+CORR_THRESHOLD = 0.55
 
 # paths
 DATA_DIR = "../data"
