@@ -117,12 +117,16 @@ def load_pdx():
         pdx = pdx.loc[:, pdx.columns.isin(genes) & pdx.columns.isin(patients.columns)]
 
         # Remove control subjects and subjects exposed to two treatments
-        pdx = pdx[~pdx.index.str.contains(r"\+|CTRL")]
+        # pdx = pdx[~pdx.index.str.contains(r"\+|CTRL")]
+        
+        # Remove subjects exposed to two treatments
+        pdx = pdx[~pdx.index.str.contains(r"\+")]
+                
         
         index_split = pdx.index.str.lower().str.rsplit("_", 1)
-
-        # Transform the index into a multiindex
-        # First level:  treatments (p4, dht, e2)
+        
+        # Transform the index into a multi-index
+        # First level:  treatments (p4, dht, e2, ctrl)
         # Second level: subject id
         pdx.index = (
             index_split
@@ -135,7 +139,7 @@ def load_pdx():
         pdx.columns = pdx.columns.sort_values().set_names(None)
         
         # Add label columns
-        pdx.insert(0, "label", index_split.map(lambda x: LABELS[x[1]]))
+        pdx.insert(0, "label", index_split.map(lambda x: LABELS_TREAT[x[1]]))
         
         # Sort by label
         pdx = pdx.sort_values("label")
