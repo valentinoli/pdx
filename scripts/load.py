@@ -79,16 +79,16 @@ def load_patients2():
             skiprows=1,
         ).T
         
-        # replace indexing of patients with RangeIndex
+        # Replace indexing of patients with RangeIndex
         patients.reset_index(drop=True, inplace=True)
 
-        # remove number identifiers that follow the gene name
+        # Remove number identifiers that follow the gene name
         patients.columns = patients.columns.str.split("|").map(lambda x: x[0])
 
         # Remove the default name
-        patients2.columns.set_names(None, inplace=True)
+        patients.columns.set_names(None, inplace=True)
         
-        # keep only selected genes
+        # Keep only selected genes
         patients = patients.loc[:, patients.columns.isin(genes)]
         
         patients.to_pickle(pkl)
