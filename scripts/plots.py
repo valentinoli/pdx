@@ -31,7 +31,7 @@ def plot_feature_distributions(data, names, filename="feature_distribution"):
     for i in range(0, len(names), step):
         index = range(i, min(i+step, len(names)))
         ax[i//10].boxplot(x=data.iloc[:, index].T, labels=names[index])
-        #ax[i//10].set_ylim([0,5000])
+        ax[i//10].set_ylim([0, 5000])
 
     fig.savefig(f"../data/{filename}.png")
     

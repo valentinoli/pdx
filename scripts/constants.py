@@ -1,10 +1,14 @@
 """Constants"""
 
-HORMONES = ["dht", "e2", "p4"]
-TREATMENTS = ["dht", "e2", "p4", "ctrl"]
 UP_DOWN = ["up", "down"]
-LABELS = dict(zip(HORMONES, [0, 1, 2]))
-LABELS_TREAT = dict(zip(TREATMENTS, [0, 1, 2, 3]))
+
+CTRL = "ctrl"
+HORMONES = ["dht", "e2", "p4"]
+HORMONES_CTRL = HORMONES + [CTRL]
+
+LABELS = dict(zip(HORMONES, list(range(3))))
+LABELS_CTRL = dict(zip(HORMONES_CTRL, list(range(4))))
+
 CORR_THRESHOLD = 0.55
 
 # paths
