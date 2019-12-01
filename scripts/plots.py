@@ -179,3 +179,21 @@ def plot_pca_expl_var(pca):
 
     ax.grid(axis="x")
     plt.show()
+    
+def plot_method_score(method, scores):
+    x = np.arange(2,len(scores)+2)
+    plt.plot(x, scores)
+    plt.ylabel("Score")
+    plt.xlabel("Number of clusters")
+    plt.title(method + " score")
+    plt.ylim(-0.5,1.0)
+    plt.show()
+
+def plot_method_silhouette(method, silhouettes):
+    x = np.arange(2,len(silhouettes)+2)
+    plt.plot(x, silhouettes)
+    plt.ylabel("Silhouette")
+    plt.xlabel("Number of clusters")
+    plt.title(method + " silhouette")
+    plt.ylim(-0.5,1.0)
+    plt.show()
