@@ -9,7 +9,7 @@ HORMONES_CTRL = HORMONES + [CTRL]
 LABELS = dict(zip(HORMONES, list(range(3))))
 LABELS_CTRL = dict(zip(HORMONES_CTRL, list(range(4))))
 
-CORR_THRESHOLD = 0.55
+CORR_THRESHOLD = 0.6
 
 # paths
 DATA_DIR = "../data"

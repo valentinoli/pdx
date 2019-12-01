@@ -40,7 +40,7 @@ def load_genes_list():
 
     
 def load_patients():
-    """Load patient data (part 1), only retaining certain genes"""
+    """Load first patient dataset, only retaining certain genes"""
     pkl = f"{PKL_DIR}/patients.pkl"
     try:
         return pd.read_pickle(pkl)
@@ -64,7 +64,7 @@ def load_patients():
 
 
 def load_patients2():
-    """Load patient data (part 1), only retaining certain genes"""
+    """Load second patient dataset, only retaining certain genes"""
     pkl = f"{PKL_DIR}/patients2.pkl"
     try:
         return pd.read_pickle(pkl)
@@ -118,28 +118,28 @@ def load_pdx():
         
         # Remove subjects exposed to two treatments
         pdx = pdx[~pdx.index.str.contains(r"\+")]
-                
-        
-        index_split = pdx.index.str.lower().str.rsplit("_", 1)
         
         # Transform the index into a multi-index
         # First level:  treatments (dht, e2, p4, ctrl)
-        # Second level: subject id
+        # Second level: tumor (t110, t111, pl015)
+        # Third level: subject id
+        index_split = pdx.index.str.lower().str.split("_")
+
         pdx.index = (
             index_split
-            .map(lambda x: (x[1], x[0]))
-            .set_names(["treatment", "id"])
+            .map(lambda x: (x[3], x[0], "_".join(x[1:3])))
+            .set_names(["treatment", "tumor", "id"])
         )
         
         # Sort gene names alphabetically
         # since they are not sorted beforehand
         pdx.columns = pdx.columns.sort_values().set_names(None)
         
-        # Add label columns
-        pdx.insert(0, "label", index_split.map(lambda x: LABELS_CTRL[x[1]]))
+        # Add integer label based on treatment
+        pdx.insert(0, "label", index_split.map(lambda x: LABELS_CTRL[x[3]]))
         
-        # Sort by label
-        pdx = pdx.sort_values("label")
+        # Sort by treatment, then by tumor
+        pdx = pdx.sort_index(level=[0, 1])
         
         pdx.to_pickle(pkl)    
         return pdx

@@ -37,12 +37,13 @@ def gene_pairs_per_treatment():
         tril_indices = np.tril_indices(num_genes, k=-1)
         index_pairs = list(zip(tril_indices[0], tril_indices[1]))
 
-        # We map the list of index-pairs to all possible pairs of genes
+        # Map the list of index-pairs to all possible pairs of genes
         pairs = [(glist[pair[0]], glist[pair[1]]) for pair in index_pairs]
 
-        # idx = pd.MultiIndex.from_tuples(genes_pairs)
+        # Create the series and append to list
         series_h = pd.Series(data=h, index=pairs, name="pdx_hormone")
         series.append(series_h)
 
+    # Concatenate the list of series 
     genes_pairs = pd.concat(series, sort=False).groupby(level=0).apply(list)
     return genes_pairs

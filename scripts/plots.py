@@ -4,10 +4,21 @@ import math
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+import chart_studio
+chart_studio.tools.set_credentials_file(username='valentin.loftsson', api_key='SfH9Q8y2Cqzd38Sm0je4')
+import chart_studio.plotly as py
+import plotly.express as px
+
 from constants import PLOT_DIR
 
 
-def plot_corr(corr, labels, filename='corr'):
+def savefig(fig, filename):
+    fig.savefig(f"{PLOT_DIR}/{filename}.png")
+
+
+def plot_corr(corr, labels, filename="corr"):
     """Plots the lower triangular absolute correlation matrix on a heatmap"""
     tril_abs_corr = np.abs(np.tril(corr, k=-1))
 
@@ -61,6 +72,74 @@ def plot_means_std_patients(pat, pat2, filename="patients_mean_std"):
     plt.legend(("first", "second"))
 
     plt.savefig(f"{PLOT_DIR}/{filename}.png")
+
+
+def explained_variance_percentage(ratios):
+    return round(sum(ratios) * 100, 2)
+
+
+def pca_visualize_2d(data, labels=None, filename="pca_2d"):
+    """Visualize data samples in 2D using first two principal components"""
+    pca = PCA(n_components=3).fit(data)
+    components = pca.transform(data)
+    explained_var = explained_variance_percentage(pca.explained_variance_ratio_[:2])
+
+    print(f"First 2 components explain {explained_var}% of the variance in the original data")
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    plt.title("PCA visualization")
+    plt.xlabel("1st PC")
+    plt.ylabel("2nd PC")
+
+    x = components[:, 0]
+    y = components[:, 1]
+
+    ax.scatter(x, y)
+    
+    # If we have labels, then we're plotting the PDX data
+    if labels:        
+        for i in range(len(y)):
+            ax.annotate(labels[i], (x[i]+.5, y[i]+.5))
+            
+    plt.savefig(f"{PLOT_DIR}/{filename}.png")
+
+    
+def pca_visualize_3d(data, labels=None, filename="pats-pca-3d"):
+    """Visualize data samples in 3D using first 3-4 principal components"""
+    pca = PCA(n_components=4).fit(data)
+    components = pca.transform(data)
+
+    x = components[:, 0]
+    y = components[:, 1]
+    z = components[:, 2]
+    # color = components[:, 3]
+    explained_var = explained_variance_percentage(pca.explained_variance_ratio_[:3])
+    print(f"First 3 components explain {explained_var}% of the variance in the original data")
+    
+    if labels:
+        title="Expression levels in PDX subjects - 3D PCA visualization"
+    else:
+        title="Expression levels in breast cancer patients - 3D PCA visualization"
+
+    fig = px.scatter_3d(x=x, y=y, z=z)
+
+    fig.update_layout(
+        title={"text": title,},
+        title_font=dict(size=20),
+    )
+
+    fig.update_traces(
+        marker=dict(
+            size=4, color="rgb(17, 157, 255)", opacity=0.5, line=dict(width=2, color="rgb(231, 99, 250)")
+        ),
+        selector=dict(mode="markers"),
+    )
+
+    # If we have labels, then we're plotting the PDX data
+    # Todo
+            
+    py.plot(fig, filename=filename)
+    
     
 def plot_pca_info(pca):
     y_pos = np.arange(len(pca.singular_values_))
@@ -71,7 +150,7 @@ def plot_pca_info(pca):
     plt.show()
 
     y_pos = np.arange(len(pca.singular_values_))
-    plt.bar(y_pos, pca.explained_variance_, align="center", alpha=0.5)
+    plt.bar(y_pos, pca.explained_variance_ratio_, align="center", alpha=0.5)
     plt.ylabel("Explained variance")
     plt.xlabel("Principal components")
     plt.title("PCA - explained variance")
