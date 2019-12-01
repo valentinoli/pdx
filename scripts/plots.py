@@ -62,4 +62,41 @@ def plot_means_std_patients(pat, pat2, filename="patients_mean_std"):
 
     plt.savefig(f"{PLOT_DIR}/{filename}.png")
     
+def plot_pca_info(pca):
+    y_pos = np.arange(len(pca.singular_values_))
+    plt.bar(y_pos, pca.singular_values_, align="center", alpha=0.5)
+    plt.ylabel("Values")
+    plt.xlabel("Principal components")
+    plt.title("PCA - Singular values")
+    plt.show()
+
+    y_pos = np.arange(len(pca.singular_values_))
+    plt.bar(y_pos, pca.explained_variance_, align="center", alpha=0.5)
+    plt.ylabel("Explained variance")
+    plt.xlabel("Principal components")
+    plt.title("PCA - explained variance")
+    plt.show()
     
+def plot_pca_expl_var(pca):
+    fig, ax = plt.subplots()
+    xi = np.arange(0, 33, step=1)
+    y = np.cumsum(pca.explained_variance_ratio_)
+
+    plt.ylim(0.3, 1.1)
+    plt.plot(xi, y, marker="o", linestyle="--", color="b")
+
+    plt.xlabel("Number of Components")
+    plt.xticks(
+        np.arange(0, 33, step=1)
+    )  # change from 0-based array index to 1-based human-readable label
+    plt.ylabel("Cumulative variance (%)")
+    plt.title("The number of components needed to explain variance")
+
+    plt.axhline(y=0.99, color="r", linestyle="-")
+    plt.axhline(y=0.95, color="orange", linestyle="-")
+
+    plt.text(0.5, 1, "99% cut-off threshold", color="red", fontsize=10)
+    plt.text(0.5, 0.9, "95% cut-off threshold", color="orange", fontsize=10)
+
+    ax.grid(axis="x")
+    plt.show()
