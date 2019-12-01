@@ -8,7 +8,7 @@ from constants import *
 
 def load_genes():
     """Load raw information about the genes"""
-    pkl = f"{DATA_DIR}/genes_raw.pkl"
+    pkl = f"{PKL_DIR}/genes_raw.pkl"
     try:
         return pd.read_pickle(pkl)
     
@@ -28,7 +28,7 @@ def load_genes():
 
 def load_genes_list():
     """Load the preprocessed list of genes"""
-    pkl = f"{DATA_DIR}/genes_list.pkl"
+    pkl = f"{PKL_DIR}/genes_list.pkl"
     try:
         return pd.read_pickle(pkl)
     
@@ -41,7 +41,7 @@ def load_genes_list():
     
 def load_patients():
     """Load patient data (part 1), only retaining certain genes"""
-    pkl = f"{DATA_DIR}/patients.pkl"
+    pkl = f"{PKL_DIR}/patients.pkl"
     try:
         return pd.read_pickle(pkl)
     
@@ -65,7 +65,7 @@ def load_patients():
 
 def load_patients2():
     """Load patient data (part 1), only retaining certain genes"""
-    pkl = f"{DATA_DIR}/patients2.pkl"
+    pkl = f"{PKL_DIR}/patients2.pkl"
     try:
         return pd.read_pickle(pkl)
     
@@ -97,7 +97,7 @@ def load_patients2():
 
 def load_pdx():
     """Load PDX tumor data, only retaining certain genes"""
-    pkl = f"{DATA_DIR}/pdx.pkl"
+    pkl = f"{PKL_DIR}/pdx.pkl"
     try:
         return pd.read_pickle(pkl)
     

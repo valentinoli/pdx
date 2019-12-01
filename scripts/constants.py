@@ -13,6 +13,8 @@ CORR_THRESHOLD = 0.55
 
 # paths
 DATA_DIR = "../data"
+PLOT_DIR = DATA_DIR + "/plot"
+PKL_DIR = DATA_DIR + "/pickle"
 
 GENES_PATH = f"{DATA_DIR}/pdx/List of Genes Differentially Expressed upon Different Treatments.xlsx"
 PDX_PATH = f"{DATA_DIR}/pdx/Human_matrix_DESEQ2normalized_removedlowlyexpressedgenes.xlsx"
