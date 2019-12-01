@@ -156,6 +156,7 @@ def plot_pca_info(pca):
     plt.title("PCA - explained variance")
     plt.show()
     
+    
 def plot_pca_expl_var(pca):
     fig, ax = plt.subplots()
     xi = np.arange(0, 33, step=1)
@@ -180,6 +181,7 @@ def plot_pca_expl_var(pca):
     ax.grid(axis="x")
     plt.show()
     
+    
 def plot_method_score(method, scores):
     x = np.arange(2,len(scores)+2)
     plt.plot(x, scores)
@@ -189,6 +191,7 @@ def plot_method_score(method, scores):
     plt.ylim(-0.5,1.0)
     plt.show()
 
+    
 def plot_method_silhouette(method, silhouettes):
     x = np.arange(2,len(silhouettes)+2)
     plt.plot(x, silhouettes)

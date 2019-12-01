@@ -3,6 +3,7 @@ from sklearn import cluster, metrics
 from plots import *
 from constants import *
 
+
 def cluster_(data, labels, method, n_clusters, with_score):
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
@@ -20,6 +21,7 @@ def cluster_(data, labels, method, n_clusters, with_score):
     silhouette = metrics.silhouette_score(data, predicted, metric='euclidean')
     return score, silhouette
 
+
 def test_all_methods(data, labels):
     with_score = True
     if labels.empty: with_score = False
@@ -34,6 +36,7 @@ def test_all_methods(data, labels):
             plot_method_score(method, scores)
         plot_method_silhouette(method, silhouettes)
 
+        
 def test_agglomerative(data, labels):
     with_score = True
     if labels==None: with_score = False
@@ -55,3 +58,4 @@ def test_agglomerative(data, labels):
                 if with_score:
                     plot_method_score(method, scores)
                 plot_method_silhouette("agglomerative_"+affinity+"_"+linkage, silhouettes)
+                
