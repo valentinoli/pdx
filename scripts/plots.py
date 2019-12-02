@@ -2,6 +2,7 @@
 
 import math
 import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
@@ -105,38 +106,47 @@ def pca_visualize_2d(data, labels=None, filename="pca_2d"):
 
     
 def pca_visualize_3d(data, labels=None, filename="pats-pca-3d"):
-    """Visualize data samples in 3D using first 3-4 principal components"""
-    pca = PCA(n_components=4).fit(data)
+    """Visualize data samples in 3D using first 3 principal components"""
+    pca = PCA(n_components=3).fit(data)
     components = pca.transform(data)
 
-    x = components[:, 0]
-    y = components[:, 1]
-    z = components[:, 2]
-    # color = components[:, 3]
-    explained_var = explained_variance_percentage(pca.explained_variance_ratio_[:3])
+    data = pd.DataFrame(components, columns=["1st PC", "2nd PC", "3rd PC"], index=labels).reset_index()
+    
+    explained_var = explained_variance_percentage(pca.explained_variance_ratio_)
     print(f"First 3 components explain {explained_var}% of the variance in the original data")
     
-    if labels:
-        title="Expression levels in PDX subjects - 3D PCA visualization"
+    if isinstance(labels, pd.MultiIndex):
+        title="Expression levels in PDX subjects - PCA visualization"
+        fig = px.scatter_3d(
+            data,
+            x="1st PC",
+            y="2nd PC",
+            z="3rd PC",
+            hover_name="id",
+            color="treatment",
+            symbol="tumor",
+            color_discrete_map={"ctrl": "blue", "dht": "red", "e2": "green", "p4": "yellow"},
+            opacity=0.5,
+            title=title
+        )
     else:
-        title="Expression levels in breast cancer patients - 3D PCA visualization"
+        title="Expression levels in breast cancer patients - PCA visualization"
+        fig = px.scatter_3d(
+            data,
+            x="1st PC",
+            y="2nd PC",
+            z="3rd PC",
+            hover_name="index",
+            opacity=0.5,
+            title=title
+        )
 
-    fig = px.scatter_3d(x=x, y=y, z=z)
-
-    fig.update_layout(
-        title={"text": title,},
-        title_font=dict(size=20),
-    )
-
-    fig.update_traces(
-        marker=dict(
-            size=4, color="rgb(17, 157, 255)", opacity=0.5, line=dict(width=2, color="rgb(231, 99, 250)")
-        ),
-        selector=dict(mode="markers"),
-    )
-
-    # If we have labels, then we're plotting the PDX data
-    # Todo
+        fig.update_traces(
+            marker=dict(
+                size=4, color="rgb(17, 157, 255)", line=dict(width=2, color="rgb(231, 99, 250)")
+            ),
+            selector=dict(mode="markers"),
+        )
             
     py.plot(fig, filename=filename)
     
