@@ -31,13 +31,14 @@ def test_all_methods(data, labels=None, with_score=False):
         dbs = []
         for k in range(2,15):
             score, silhouette, db = cluster_(data, labels, method, k, with_score)
-            scores.append(score)
+            if with_score:
+                scores.append(score)
             silhouettes.append(silhouette)
             dbs.append(db)
         values[method, 'db'] = dbs
         values[method, 'score'] = scores
         values[method, 'silhouette'] = silhouettes
-    plot_index(values)
+    plot_index(values, with_score)
 
         
 def test_agglomerative(data, labels):

@@ -198,7 +198,7 @@ def plot_pca_expl_var(pca):
     ax.grid(axis="x")
     plt.show()
     
-def plot_index(values):
+def plot_index(values, with_score=True):
     x = np.arange(2,15)
     
     f, ax = plt.subplots(3, 3)
@@ -207,13 +207,14 @@ def plot_index(values):
     
     for i in range(3):
         index_method = CLUSTERING_INDEXING_METHODS[i]
-        for j in range(3):
-            clus_method = CLUSTERING_METHODS[j]
-            ax[i,j].plot(x, values[clus_method, index_method])
-            ax[i,j].set_ylabel(index_method)
-            ax[i,j].set_xlabel("num_clusters")
-            ax[i,j].set_title(clus_method + '_' + index_method)
-            if index_method == 'db':
-                ax[i,j].set_ylim(0.0,3.5)
-            else:
-                ax[i,j].set_ylim(-0.5,1.0)
+        if not (index_methods=='score' and with_score==False):
+            for j in range(3):
+                clus_method = CLUSTERING_METHODS[j]
+                ax[i,j].plot(x, values[clus_method, index_method])
+                ax[i,j].set_ylabel(index_method)
+                ax[i,j].set_xlabel("num_clusters")
+                ax[i,j].set_title(clus_method + '_' + index_method)
+                if index_method == 'db':
+                    ax[i,j].set_ylim(0.0,3.5)
+                else:
+                    ax[i,j].set_ylim(-0.5,1.0)
