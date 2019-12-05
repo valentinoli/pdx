@@ -5,6 +5,7 @@ UP_DOWN = ["up", "down"]
 CTRL = "ctrl"
 HORMONES = ["dht", "e2", "p4"]
 HORMONES_CTRL = HORMONES + [CTRL]
+TUMORS = ["t111", "t110", "pl015"]
 
 LABELS = dict(zip(HORMONES, list(range(3))))
 LABELS_CTRL = dict(zip(HORMONES_CTRL, list(range(4))))

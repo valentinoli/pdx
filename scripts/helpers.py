@@ -47,3 +47,9 @@ def gene_pairs_per_treatment():
     # Concatenate the list of series 
     genes_pairs = pd.concat(series, sort=False).groupby(level=0).apply(list)
     return genes_pairs
+
+
+def df_standardize_columns(df):
+    """Standardizes columns of a dataframe"""
+    return (df-df.mean(axis=0)) / df.std(axis=0)
+
