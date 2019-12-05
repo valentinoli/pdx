@@ -3,7 +3,6 @@ from sklearn import cluster, metrics
 from plots import *
 from constants import *
 
-
 def cluster_(data, labels, method, n_clusters, with_score):
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
@@ -19,22 +18,26 @@ def cluster_(data, labels, method, n_clusters, with_score):
     else:
         score = None
     silhouette = metrics.silhouette_score(data, predicted, metric='euclidean')
-    return score, silhouette
+    db = metrics.davies_bouldin_score(data, predicted)
+    return score, silhouette, db
 
 
-def test_all_methods(data, labels):
-    with_score = True
-    if labels.empty: with_score = False
+def test_all_methods(data, labels=None, with_score=False):
+    print("REMINDER: Lower the DB index value, better is the clustering")
+    values = {}
     for method in CLUSTERING_METHODS:
         scores = []
         silhouettes = []
+        dbs = []
         for k in range(2,15):
-            score, silhouette = cluster_(data, labels, method, k, with_score)
+            score, silhouette, db = cluster_(data, labels, method, k, with_score)
             scores.append(score)
             silhouettes.append(silhouette)
-        if with_score:
-            plot_method_score(method, scores)
-        plot_method_silhouette(method, silhouettes)
+            dbs.append(db)
+        values[method, 'db'] = dbs
+        values[method, 'score'] = scores
+        values[method, 'silhouette'] = silhouettes
+    plot_index(values)
 
         
 def test_agglomerative(data, labels):
@@ -55,7 +58,5 @@ def test_agglomerative(data, labels):
                     silhouette = metrics.silhouette_score(data, predicted, metric='euclidean')
                     scores.append(score)
                     silhouettes.append(silhouette)
-                if with_score:
-                    plot_method_score(method, scores)
-                plot_method_silhouette("agglomerative_"+affinity+"_"+linkage, silhouettes)
+                plot_method("agglomerative_"+affinity+"_"+linkage, with_scores, silhouettes, silhouettes, silhouettes, scores)
                 

@@ -12,7 +12,7 @@ chart_studio.tools.set_credentials_file(username='valentin.loftsson', api_key='S
 import chart_studio.plotly as py
 import plotly.express as px
 
-from constants import PLOT_DIR
+from constants import *
 
 
 def savefig(fig, filename):
@@ -191,22 +191,22 @@ def plot_pca_expl_var(pca):
     ax.grid(axis="x")
     plt.show()
     
+def plot_index(values):
+    x = np.arange(2,15)
     
-def plot_method_score(method, scores):
-    x = np.arange(2,len(scores)+2)
-    plt.plot(x, scores)
-    plt.ylabel("Score")
-    plt.xlabel("Number of clusters")
-    plt.title(method + " score")
-    plt.ylim(-0.5,1.0)
-    plt.show()
-
+    f, ax = plt.subplots(3, 3)
+    f.set_figwidth(15)
+    f.set_figheight(15)
     
-def plot_method_silhouette(method, silhouettes):
-    x = np.arange(2,len(silhouettes)+2)
-    plt.plot(x, silhouettes)
-    plt.ylabel("Silhouette")
-    plt.xlabel("Number of clusters")
-    plt.title(method + " silhouette")
-    plt.ylim(-0.5,1.0)
-    plt.show()
+    for i in range(3):
+        index_method = CLUSTERING_INDEXING_METHODS[i]
+        for j in range(3):
+            clus_method = CLUSTERING_METHODS[j]
+            ax[i,j].plot(x, values[clus_method, index_method])
+            ax[i,j].set_ylabel(index_method)
+            ax[i,j].set_xlabel("num_clusters")
+            ax[i,j].set_title(clus_method + '_' + index_method)
+            if index_method == 'db':
+                ax[i,j].set_ylim(0.0,3.5)
+            else:
+                ax[i,j].set_ylim(-0.5,1.0)
