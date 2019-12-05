@@ -78,7 +78,7 @@ def load_patients2():
             index_col=0,  # first column contains genes
             skiprows=1,
         ).T
-        
+
         # Replace indexing of patients with RangeIndex
         patients.reset_index(drop=True, inplace=True)
 
