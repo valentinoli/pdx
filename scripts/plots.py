@@ -79,7 +79,7 @@ def explained_variance_percentage(ratios):
     return round(sum(ratios) * 100, 2)
 
 
-def pca_visualize_2d(data, labels=None, filename="pca_2d"):
+def pca_visualize_2d(data, index=None, filename="pca_2d", title="PCA visualization"):
     """Visualize data samples in 2D using first two principal components"""
     pca = PCA(n_components=3).fit(data)
     components = pca.transform(data)
@@ -87,21 +87,28 @@ def pca_visualize_2d(data, labels=None, filename="pca_2d"):
 
     print(f"First 2 components explain {explained_var}% of the variance in the original data")
 
-    fig, ax = plt.subplots(figsize=(10, 10))
-    plt.title("PCA visualization")
+    fig, ax = plt.subplots()
+    plt.title(title)
     plt.xlabel("1st PC")
     plt.ylabel("2nd PC")
 
     x = components[:, 0]
     y = components[:, 1]
 
-    ax.scatter(x, y)
-    
-    # If we have labels, then we're plotting the PDX data
-    if labels:        
-        for i in range(len(y)):
-            ax.annotate(labels[i], (x[i]+.5, y[i]+.5))
-            
+    if isinstance(index, pd.MultiIndex):
+        sns.scatterplot(
+            x,
+            y,
+            hue=index.get_level_values(0),
+            style=index.get_level_values(1),
+            s=100,
+        )
+        
+        ax.legend(bbox_to_anchor=(1.05, 1.025))
+    else:
+        sns.scatterplot(x, y)
+       
+    ax.grid(True)
     plt.savefig(f"{PLOT_DIR}/{filename}.png")
 
     
@@ -147,7 +154,7 @@ def pca_visualize_3d(data, labels=None, filename="pats-pca-3d"):
             ),
             selector=dict(mode="markers"),
         )
-            
+    
     py.plot(fig, filename=filename)
     
     
