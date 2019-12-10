@@ -207,7 +207,7 @@ def plot_index(values, with_score=True):
     
     for i in range(3):
         index_method = CLUSTERING_INDEXING_METHODS[i]
-        if not (index_methods=='score' and with_score==False):
+        if not (index_method=='score' and with_score==False):
             for j in range(3):
                 clus_method = CLUSTERING_METHODS[j]
                 ax[i,j].plot(x, values[clus_method, index_method])
