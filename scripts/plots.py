@@ -199,16 +199,16 @@ def plot_pca_expl_var(pca):
     plt.show()
     
 def plot_index(values, with_score=True):
-    x = np.arange(2,15)
+    x = np.arange(2,8)
     
-    f, ax = plt.subplots(3, 3)
+    f, ax = plt.subplots(3, 4)
     f.set_figwidth(15)
     f.set_figheight(15)
     
     for i in range(3):
         index_method = CLUSTERING_INDEXING_METHODS[i]
         if not (index_method=='score' and with_score==False):
-            for j in range(3):
+            for j in range(4):
                 clus_method = CLUSTERING_METHODS[j]
                 ax[i,j].plot(x, values[clus_method, index_method])
                 ax[i,j].set_ylabel(index_method)

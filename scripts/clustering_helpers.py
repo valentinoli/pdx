@@ -13,6 +13,8 @@ def cluster_(data, labels, method, n_clusters, with_score):
         clus = cluster.AgglomerativeClustering(n_clusters=n_clusters, affinity='manhattan', linkage='single')
     elif method=='spectral':
         clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)    
+    elif method=='meanshift':
+        clus = cluster.MeanShift()
     predicted = clus.fit_predict(data)
     if with_score:
         score = metrics.adjusted_rand_score(labels, predicted)
@@ -30,7 +32,7 @@ def test_all_methods(data, labels=None, with_score=False):
         scores = []
         silhouettes = []
         dbs = []
-        for k in range(2,15):
+        for k in range(2,8):
             score, silhouette, db = cluster_(data, labels, method, k, with_score)
             if with_score:
                 scores.append(score)
