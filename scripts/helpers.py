@@ -5,11 +5,11 @@ import numpy as np
 import pandas as pd
 
 from load import load_genes_list
-from constants import HORMONES
+from constants import HORMONES, TUMORS
 
 
 def df_to_tril(df):
-    """Returns a lower triangular dataframe where entries
+    """Return a lower triangular dataframe where entries
     above and including the main diagonal are set to zero.
     """
     for index, row in df.iterrows():
@@ -18,7 +18,7 @@ def df_to_tril(df):
 
 
 def gene_pairs_per_treatment():
-    """Returns all pairs of genes differentially expressed
+    """Return all pairs of genes differentially expressed
     upon the same treatment as a Series object with the index
     being the pair and the value being the list of treatments"""
     genes_list = load_genes_list()
@@ -50,6 +50,18 @@ def gene_pairs_per_treatment():
 
 
 def df_standardize_columns(df):
-    """Standardizes columns of a dataframe"""
+    """Standardize columns of a dataframe"""
     return (df-df.mean(axis=0)) / df.std(axis=0)
+
+
+def pdx_standardize(X_pdx):
+    """Standardize the PDX feature matrix per tumor and return the concatenated dataframe,
+     the aim being to eliminate bias introduced by different tumors being injected"""
+    dfs_stdized = []
+    for tumor in TUMORS:
+        df = X_pdx.xs(tumor, level=1, drop_level=False)
+        df_stdized = df_standardize_columns(df)
+        dfs_stdized.append(df_stdized)
+    
+    return pd.concat(dfs_stdized).sort_values(["treatment", "tumor"])
 

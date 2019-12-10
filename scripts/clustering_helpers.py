@@ -3,6 +3,7 @@ from sklearn import cluster, metrics
 from plots import *
 from constants import *
 
+
 def cluster_(data, labels, method, n_clusters, with_score):
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
