@@ -174,9 +174,9 @@ def plot_pca_info(pca):
     plt.show()
     
     
-def plot_pca_expl_var(pca):
+def plot_pca_expl_var(pca, steps=33):
     fig, ax = plt.subplots()
-    xi = np.arange(0, 33, step=1)
+    xi = np.arange(0, steps, step=1)
     y = np.cumsum(pca.explained_variance_ratio_)
 
     plt.ylim(0.3, 1.1)
@@ -184,7 +184,7 @@ def plot_pca_expl_var(pca):
 
     plt.xlabel("Number of Components")
     plt.xticks(
-        np.arange(0, 33, step=1)
+        np.arange(0, steps, step=1)
     )  # change from 0-based array index to 1-based human-readable label
     plt.ylabel("Cumulative variance (%)")
     plt.title("The number of components needed to explain variance")
