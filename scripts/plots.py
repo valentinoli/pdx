@@ -210,7 +210,8 @@ def plot_index(values, with_score=True):
         if not (index_method=='score' and with_score==False):
             for j in range(4):
                 clus_method = CLUSTERING_METHODS[j]
-                ax[i,j].plot(x, values[clus_method, index_method])
+                vals = values[clus_method, index_method]
+                ax[i,j].plot(x, vals)
                 ax[i,j].set_ylabel(index_method)
                 ax[i,j].set_xlabel("num_clusters")
                 ax[i,j].set_title(clus_method + '_' + index_method)
@@ -218,3 +219,5 @@ def plot_index(values, with_score=True):
                     ax[i,j].set_ylim(0.0,3.5)
                 else:
                     ax[i,j].set_ylim(-0.5,1.0)
+                for k in range(0,5):
+                    print(clus_method + " " + index_method + " for " + str(k+2) + " clusters: " + "{:.2f}".format(vals[k]))
