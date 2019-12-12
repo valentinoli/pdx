@@ -176,6 +176,7 @@ def plot_pca_info(pca):
     
 def plot_pca_expl_var(pca, steps=33):
     fig, ax = plt.subplots()
+    fig.set_size_inches(steps/4, 4)
     xi = np.arange(0, steps, step=1)
     y = np.cumsum(pca.explained_variance_ratio_)
 
