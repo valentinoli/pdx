@@ -221,3 +221,13 @@ def plot_index(values, with_score=True):
                     ax[i,j].set_ylim(-0.5,1.0)
                 for k in range(0,5):
                     print(clus_method + " " + index_method + " for " + str(k+2) + " clusters: " + "{:.2f}".format(vals[k]))
+
+def pca_gene_composition(data, filename="pca_gene_composition", title="PCA gene composition"):
+    """Visualize which genes contribute to the first 3 principal components."""
+    pca = PCA(n_components=3).fit(data)
+    plt.matshow(pca.components_,cmap='magma')
+    plt.yticks([0,1,2],['1st PC','2nd PC','3rd PC'],fontsize=8)
+    plt.colorbar()
+    plt.xticks(range(len(data.columns.values)),data.columns.values,rotation=80,ha='left',fontsize=7)
+    plt.savefig(f"{PLOT_DIR}/{filename}.svg")
+    plt.show()
