@@ -1,4 +1,5 @@
 from sklearn import cluster, metrics
+from sklearn.decomposition import PCA
 
 from plots import *
 from constants import *
@@ -71,4 +72,45 @@ def test_agglomerative(data, labels):
                     scores.append(score)
                     silhouettes.append(silhouette)
                 plot_method("agglomerative_"+affinity+"_"+linkage, with_scores, silhouettes, silhouettes, silhouettes, scores)
+
                 
+def optimize_ARI(X, Y, n=100):
+    """Visualize the best initializer which is optimized for the ARI score, return all scores."""
+    score = np.zeros((n,5))
+    for j in range(score.shape[1]):
+        for i in range(score.shape[0]):
+            clus = cluster.KMeans(n_clusters=j+2, random_state=i)
+            predicted = clus.fit_predict(X)
+            score[i,j] = metrics.adjusted_rand_score(Y, predicted)
+
+    for sc in range(score.shape[1]):
+        plt.plot(score[:,sc])
+    plt.legend(['2','3','4','5','6'])
+    plt.ylim(bottom=0)
+    plt.xlabel('Random state initializer')
+    plt.ylabel('ARI score')
+    plt.show()
+    print("Max score: " + str(score.max()))
+    print("Position of best score: " + str(np.where(score==score.max())))
+
+    for k in np.arange(score.shape[1]):
+        print("Max ARI score for " + str(k+2)+ " clusters: " + str(np.round(100*score[:,k].max()))+str('%'))
+    
+    return score
+
+def applyClusterCentersOnPatients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized):
+    """Find best clusters on PDX data, apply those cluster centers on patient data. Clusters are fitted to standardized PDX data without controls."""
+    # get optimal cluster
+    clus = cluster.KMeans(n_clusters=3, random_state=116)
+    predicted = clus.fit_predict(X_pdx_stdized_noctrl)
+    print("Test ARI score: " + str(metrics.adjusted_rand_score(y_pdx_noctrl, predicted)))
+    print("Make sure the score == 1")
+    
+    # predict patient labels
+    patientLabels = clus.predict(pats_log_stdized)
+    pca = PCA()
+    pats_components = pca.fit_transform(pats_log_stdized)
+    data = pd.DataFrame(pats_components[:,:3], columns=["1st PC", "2nd PC", "3rd PC"])
+    data['predicted'] = patientLabels
+    fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color='predicted')
+    fig.show()
