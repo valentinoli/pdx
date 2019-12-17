@@ -12,10 +12,14 @@ def cluster_(data, labels, method, n_clusters, with_score):
     elif method=='agglomerative':
         clus = cluster.AgglomerativeClustering(n_clusters=n_clusters, affinity='manhattan', linkage='single')
     elif method=='spectral':
-        clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)    
+        clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)
     elif method=='meanshift':
         clus = cluster.MeanShift()
+    if(method=="spectral"):
+        print("before clustering")
     predicted = clus.fit_predict(data)
+    if(method=="spectral"):
+                print("after clustering")
     if with_score:
         score = metrics.adjusted_rand_score(labels, predicted)
     else:
@@ -29,6 +33,7 @@ def test_all_methods(data, labels=None, with_score=False):
     print("REMINDER: Lower the DB index value, better is the clustering")
     values = {}
     for method in CLUSTERING_METHODS:
+        print("Method: " + method)
         scores = []
         silhouettes = []
         dbs = []
@@ -41,6 +46,9 @@ def test_all_methods(data, labels=None, with_score=False):
         values[method, 'db'] = dbs
         values[method, 'score'] = scores
         values[method, 'silhouette'] = silhouettes
+        print("Scores: " + str(scores))
+        print("DBS: " + str(dbs))
+        print("Silhouettes: " + str(silhouettes))
     plot_index(values, with_score)
 
         
