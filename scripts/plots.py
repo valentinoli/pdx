@@ -220,8 +220,8 @@ def plot_index(values, with_score=True):
                     ax[i,j].set_ylim(0.0,3.5)
                 else:
                     ax[i,j].set_ylim(-0.5,1.0)
-                for k in range(0,5):
-                    print(clus_method + " " + index_method + " for " + str(k+2) + " clusters: " + "{:.2f}".format(vals[k]))
+                #for k in range(0,5):
+                    #print(clus_method + " " + index_method + " for " + str(k+2) + " clusters: " + "{:.2f}".format(vals[k]))
 
 def pca_gene_composition(data, filename="pca_gene_composition", title="PCA gene composition"):
     """Visualize which genes contribute to the first 3 principal components."""

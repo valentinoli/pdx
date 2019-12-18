@@ -66,6 +66,7 @@ def pdx_standardize(X_pdx):
     return pd.concat(dfs_stdized).sort_values(["treatment", "tumor"])
 
 def describe_prediction(predicted, actual, with_ctrl=True):
+    """Return hormonal composition of the found clusters."""
     for cluster in np.unique(actual):
         print("Cluster %d contains:" % cluster)
         contains = actual[predicted==cluster]

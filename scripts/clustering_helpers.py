@@ -16,11 +16,11 @@ def cluster_(data, labels, method, n_clusters, with_score):
         clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)
     elif method=='meanshift':
         clus = cluster.MeanShift()
-    if(method=="spectral"):
-        print("before clustering")
+    #if(method=="spectral"):
+        #print("before clustering")
     predicted = clus.fit_predict(data)
-    if(method=="spectral"):
-                print("after clustering")
+    #if(method=="spectral"):
+                #print("after clustering")
     if with_score:
         score = metrics.adjusted_rand_score(labels, predicted)
     else:
@@ -34,7 +34,7 @@ def test_all_methods(data, labels=None, with_score=False):
     print("REMINDER: Lower the DB index value, better is the clustering")
     values = {}
     for method in CLUSTERING_METHODS:
-        print("Method: " + method)
+        #print("Method: " + method)
         scores = []
         silhouettes = []
         dbs = []
@@ -47,9 +47,9 @@ def test_all_methods(data, labels=None, with_score=False):
         values[method, 'db'] = dbs
         values[method, 'score'] = scores
         values[method, 'silhouette'] = silhouettes
-        print("Scores: " + str(scores))
-        print("DBS: " + str(dbs))
-        print("Silhouettes: " + str(silhouettes))
+        #print("Scores: " + str(scores))
+        #print("DBS: " + str(dbs))
+        #print("Silhouettes: " + str(silhouettes))
     plot_index(values, with_score)
 
         
@@ -98,10 +98,10 @@ def optimize_ARI(X, Y, n=100):
     
     return score
 
-def applyClusterCentersOnPatients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized):
+def applyClusterCentersOnPatients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116):
     """Find best clusters on PDX data, apply those cluster centers on patient data. Clusters are fitted to standardized PDX data without controls."""
     # get optimal cluster
-    clus = cluster.KMeans(n_clusters=3, random_state=116)
+    clus = cluster.KMeans(n_clusters=3, random_state=state)
     predicted = clus.fit_predict(X_pdx_stdized_noctrl)
     print("Test ARI score: " + str(metrics.adjusted_rand_score(y_pdx_noctrl, predicted)))
     print("Make sure the score == 1")
