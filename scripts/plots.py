@@ -189,28 +189,30 @@ def plot_pca_expl_var(pca, steps=33):
     plt.show()
     
     
-def plot_analysis_results(values, with_ari=True):
+def plot_analysis_results(scores):
     """Plot computed evaluation metrics for each clustering method"""
-    fig, ax = plt.subplots(3, 4)
-    fig.set_figwidth(20)
-    fig.set_figheight(15)
+    keys = np.array(list(scores.keys()))
+    methods = np.unique(keys[:, 0])
+    metrics = np.unique(keys[:, 1])
     
-    for i, clus_metric in enumerate(CLUSTERING_METRICS):
-        # We do not plot the adjusted rand score
-        # if it was not computed (unlabeled data)
-        if not (clus_metric == "ari" and not with_ari):
-            for j, clus_method in enumerate(CLUSTERING_METHODS):
-                vals = values[clus_method, clus_metric]
+    nrows = len(metrics)
+    ncols = len(methods)
+    fig, ax = plt.subplots(nrows, ncols, squeeze=False)
+    fig.set_figwidth(20)
+    
+    for i, clus_metric in enumerate(metrics):
+        for j, clus_method in enumerate(methods):
+            vals = scores[clus_method, clus_metric]
+            
+            ax[i, j].plot(list(NUM_CLUSTERS), vals)
+            ax[i, j].set_ylabel(clus_metric)
+            ax[i, j].set_xlabel("num_clusters")
+            ax[i, j].set_title(f"{clus_method}_{clus_metric}")
                 
-                ax[i, j].plot(NUM_CLUSTERS, vals)
-                ax[i, j].set_ylabel(clus_metric)
-                ax[i, j].set_xlabel("num_clusters")
-                ax[i, j].set_title(f"{clus_method}_{clus_metric}")
-                
-                if clus_metric == "db":
-                    ax[i, j].set_ylim(0.0, 3.5)
-                else:
-                    ax[i, j].set_ylim(-0.5, 1.0)
+            if clus_metric == "db":
+                ax[i, j].set_ylim(0.0, 3.5)
+            else:
+                ax[i, j].set_ylim(-0.5, 1.0)
             
                     
 def pca_gene_composition(data, filename="pca_gene_composition", title="PCA gene composition"):

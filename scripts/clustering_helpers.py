@@ -26,25 +26,27 @@ def cluster_(data, labels, method, n_clusters):
     predicted = clus.fit_predict(data)
     
     # Compute performance metrics
-    # 1. Adjusted rand score (if labels are present)
-    # 2. Silhouette coefficient
-    # 3. Davies-Bouldin score
-    if labels is not None:
-        ari = metrics.adjusted_rand_score(labels, predicted)
-    else:
+    # 1. Adjusted rand score (pdx, supervised)
+    # 2. Silhouette coefficient (patients, unsupervised)
+    # 3. Davies-Bouldin score (patients, unsupervised)
+    if labels is None:
         ari = None
-        
-    silhouette = metrics.silhouette_score(data, predicted, metric="euclidean")
-    db = metrics.davies_bouldin_score(data, predicted)
+        silhouette = metrics.silhouette_score(data, predicted, metric="euclidean")
+        db = metrics.davies_bouldin_score(data, predicted)
+    else:
+        ari = metrics.adjusted_rand_score(labels, predicted)
+        silhouette = None
+        db = None        
     
     return ari, silhouette, db
 
 
 def run_cluster_analysis(data, labels=None):
+    """Run all cluster methods on the given data and return evaluation metrics"""
     method_scores = {}
     
     for method in CLUSTERING_METHODS:
-        ari = []
+        aris = []
         silhouettes = []
         dbs = []
         
@@ -53,16 +55,20 @@ def run_cluster_analysis(data, labels=None):
         for k in NUM_CLUSTERS:
             ari_score, silhouette, db = cluster_(data, labels, method, k)
             
-            ari.append(ari_score)
+            aris.append(ari_score)
             silhouettes.append(silhouette)
             dbs.append(db)
-            
-        method_scores[method, "ari"] = ari
-        method_scores[method, "silhouette"] = silhouettes
-        method_scores[method, "db"] = dbs
+        
+        if labels is None:
+            # patients
+            method_scores[method, "silhouette"] = silhouettes
+            method_scores[method, "db"] = dbs
+        else:
+            # pdx
+            method_scores[method, "ari"] = aris
     
-    with_ari = labels is not None
-    plot_analysis_results(method_scores, with_ari)
+    plot_analysis_results(method_scores)
+    return method_scores
 
                 
 def optimize_ARI(X, y, n=100):
