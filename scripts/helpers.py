@@ -40,7 +40,7 @@ def gene_pairs_per_treatment():
         pairs = [(glist[pair[0]], glist[pair[1]]) for pair in index_pairs]
 
         # Create the series and append to list
-        series_h = pd.Series(data=h, index=pairs, name="pdx_hormone")
+        series_h = pd.Series(data=h, index=pairs, name="hormone")
         series.append(series_h)
 
     # Concatenate the list of series 
