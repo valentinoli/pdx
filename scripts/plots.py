@@ -198,7 +198,7 @@ def plot_analysis_results(scores):
     nrows = len(metrics)
     ncols = len(methods)
     fig, ax = plt.subplots(nrows, ncols, squeeze=False)
-    fig.set_figwidth(20)
+    fig.set_figwidth(15)
     
     for i, clus_metric in enumerate(metrics):
         for j, clus_method in enumerate(methods):

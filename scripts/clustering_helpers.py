@@ -5,6 +5,14 @@ from plots import *
 from constants import *
 
 
+def scores_to_dataframe(scores):
+    """Convert dictionary of evaluation scores to a dataframe"""
+    res = pd.DataFrame(scores, index=NUM_CLUSTERS)
+    res.index.name = "k"
+    res = res.swaplevel(axis=1)
+    return res
+
+
 def cluster_(data, labels, method, n_clusters):
     """Test a given clustering algorithm for a given number of clusters"""
     if method not in CLUSTERING_METHODS:
@@ -18,9 +26,7 @@ def cluster_(data, labels, method, n_clusters):
         
     elif method == "spectral":
         clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)
-        
-    elif method == "meanshift":
-        clus = cluster.MeanShift()
+    
     
     # Predict cluster labels for each sample
     predicted = clus.fit_predict(data)
@@ -68,7 +74,8 @@ def run_cluster_analysis(data, labels=None):
             method_scores[method, "ari"] = aris
     
     plot_analysis_results(method_scores)
-    return method_scores
+    scores_df = scores_to_dataframe(method_scores)
+    return scores_df
 
                 
 def optimize_ARI(X, y, n=100):
@@ -105,7 +112,8 @@ def optimize_ARI(X, y, n=100):
 
 
 def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116):
-    """Find best clusters on PDX data, apply those cluster centers on patient data. Clusters are fitted to standardized PDX data without controls."""
+    """Find best clusters on PDX data, apply those cluster centers on patient data.
+    Clusters are fitted to standardized PDX data without controls."""
     # get optimal cluster
     clus = cluster.KMeans(n_clusters=3, random_state=state)
     predicted = clus.fit_predict(X_pdx_stdized_noctrl)
@@ -117,7 +125,7 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
     patientLabels = clus.predict(pats_log_stdized)
     pca = PCA()
     pats_components = pca.fit_transform(pats_log_stdized)
-    data = pd.DataFrame(pats_components[:,:3], columns=["1st PC", "2nd PC", "3rd PC"])
+    data = pd.DataFrame(pats_components[:, :3], columns=["1st PC", "2nd PC", "3rd PC"])
     data["predicted"] = patientLabels
     fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted")
     fig.show()

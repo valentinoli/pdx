@@ -99,3 +99,4 @@ def get_gene_ratios(data, labels, ctrl_index=0):
         
     output = output / output[ctrl_index, :]
     return pd.DataFrame(data=output, columns=data.columns)
+

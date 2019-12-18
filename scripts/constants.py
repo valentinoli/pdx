@@ -1,5 +1,6 @@
 """Constants"""
 
+# misc/general
 UP_DOWN = ["up", "down"]
 
 CTRL = "ctrl"
@@ -15,6 +16,13 @@ LABELS_CTRL_INVERTED = dict(map(reversed, LABELS_CTRL.items()))
 
 CORR_THRESHOLD = .6
 
+# clustering
+NUM_CLUSTERS = range(2, 7)
+CLUSTERING_METHODS = ["agglomerative", "kmeans", "spectral"]
+CLUSTERING_METRICS = ["ari", "silhouette", "db"]
+AFFINITIES = ["euclidean", "l1", "l2", "manhattan", "cosine"]
+LINKAGES = ["ward", "average", "complete", "single"]
+
 # paths
 DATA_DIR = "../data"
 PLOT_DIR = DATA_DIR + "/plot"
@@ -25,9 +33,3 @@ PDX_PATH = f"{DATA_DIR}/pdx/Human_matrix_DESEQ2normalized_removedlowlyexpressedg
 PATIENTS_PATH = f"{DATA_DIR}/patients/TCGA_ALL_Samples_log_Normalized GS.xlsx"
 PATIENTS_PATH_2 = (f"{DATA_DIR}/patients/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__"
                    "unc_edu__Level_3__RSEM_genes_normalized__data.data.txt")
-
-NUM_CLUSTERS = range(2, 7)
-CLUSTERING_METHODS = ["agglomerative", "kmeans", "spectral", "meanshift"]
-CLUSTERING_METRICS = ["ari", "silhouette", "db"]
-AFFINITIES = ["euclidean", "l1", "l2", "manhattan", "cosine"]
-LINKAGES = ["ward", "average", "complete", "single"]
