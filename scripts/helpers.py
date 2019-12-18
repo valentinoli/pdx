@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from load import load_genes_list
-from constants import HORMONES, TUMORS
+from constants import HORMONES, TUMORS, LABELS_CTRL, LABELS_CTRL_INVERTED
 
 
 def df_to_tril(df):
@@ -65,3 +65,24 @@ def pdx_standardize(X_pdx):
     
     return pd.concat(dfs_stdized).sort_values(["treatment", "tumor"])
 
+def describe_prediction(predicted, actual, with_ctrl=True):
+    """Return hormonal composition of the found clusters."""
+    for cluster in np.unique(actual):
+        print("Cluster %d contains:" % cluster)
+        contains = actual[predicted==cluster]
+        for label in np.unique(contains):
+            count = np.count_nonzero(contains==label)
+            if(with_ctrl):
+                label_name = LABELS_CTRL_INVERTED[label]
+            else:
+                label_name = LABELS_INVERTED[label]
+            print("%d %s samples" % (count,label_name))
+        print("")
+        
+def get_gene_ratios(data, labels, ctrl_index=0):
+    unique_labels = np.unique(labels)
+    output = np.zeros((unique_labels.shape[0],data.shape[1]))
+    for label in unique_labels:
+        output[label] = np.mean(data[labels==label], axis=0)
+    output = output / output[ctrl_index,:]
+    return pd.DataFrame(data=output, columns=data.columns)
