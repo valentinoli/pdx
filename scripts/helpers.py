@@ -77,3 +77,11 @@ def describe_prediction(predicted, actual, with_ctrl=True):
                 label_name = LABELS_INVERTED[label]
             print("%d %s samples" % (count,label_name))
         print("")
+        
+def get_gene_ratios(data, labels, ctrl_index=0):
+    unique_labels = np.unique(labels)
+    output = np.zeros((unique_labels.shape[0],data.shape[1]))
+    for label in unique_labels:
+        output[label] = np.mean(data[labels==label], axis=0)
+    output = output / output[ctrl_index,:]
+    return pd.DataFrame(data=output, columns=data.columns)
