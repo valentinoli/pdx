@@ -114,3 +114,4 @@ def applyClusterCentersOnPatients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_s
     data['predicted'] = patientLabels
     fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color='predicted')
     fig.show()
+    return patientLabels
