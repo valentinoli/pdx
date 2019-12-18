@@ -13,7 +13,7 @@ LABELS_CTRL = dict(zip(HORMONES_CTRL, list(range(4))))
 LABELS_INVERTED = dict(map(reversed, LABELS.items()))
 LABELS_CTRL_INVERTED = dict(map(reversed, LABELS_CTRL.items()))
 
-CORR_THRESHOLD = 0.6
+CORR_THRESHOLD = .6
 
 # paths
 DATA_DIR = "../data"
@@ -27,6 +27,6 @@ PATIENTS_PATH_2 = (f"{DATA_DIR}/patients/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__
                    "unc_edu__Level_3__RSEM_genes_normalized__data.data.txt")
 
 CLUSTERING_METHODS = ['agglomerative', 'kmeans', 'spectral', 'meanshift']
-CLUSTERING_INDEXING_METHODS = ['db','score','silhouette']
+CLUSTERING_INDEXING_METHODS = ['db', 'score', 'silhouette']
 AFFINITIES = ['euclidean', 'l1', 'l2', 'manhattan', 'cosine']
 LINKAGES = ['ward', 'average', 'complete', 'single']

@@ -10,8 +10,7 @@ from constants import HORMONES, TUMORS, LABELS_CTRL, LABELS_CTRL_INVERTED
 
 def df_to_tril(df):
     """Return a lower triangular dataframe where entries
-    above and including the main diagonal are set to zero.
-    """
+    above and including the main diagonal are set to zero."""
     for index, row in df.iterrows():
         row[index <= row.index] = 0
     return df
@@ -49,9 +48,16 @@ def gene_pairs_per_treatment():
     return genes_pairs
 
 
-def df_standardize_columns(df):
-    """Standardize columns of a dataframe"""
+def df_standardize_cols(df):
+    """Standardize dataframe columns"""
     return (df-df.mean(axis=0)) / df.std(axis=0)
+
+
+def df_log_standardize_cols(df):
+    """Log-transform values and standardize dataframe columns"""
+    # add a small constant because log(0) is undefined
+    df = np.log(df + .1)
+    return df_standardize_cols(df)
 
 
 def pdx_standardize(X_pdx):
@@ -60,29 +66,36 @@ def pdx_standardize(X_pdx):
     dfs_stdized = []
     for tumor in TUMORS:
         df = X_pdx.xs(tumor, level=1, drop_level=False)
-        df_stdized = df_standardize_columns(df)
+        df_stdized = df_standardize_cols(df)
         dfs_stdized.append(df_stdized)
     
     return pd.concat(dfs_stdized).sort_values(["treatment", "tumor"])
+
 
 def describe_prediction(predicted, actual, with_ctrl=True):
     """Return hormonal composition of the found clusters."""
     for cluster in np.unique(actual):
         print("Cluster %d contains:" % cluster)
-        contains = actual[predicted==cluster]
+        contains = actual[predicted == cluster]
+        
         for label in np.unique(contains):
-            count = np.count_nonzero(contains==label)
-            if(with_ctrl):
+            count = np.count_nonzero(contains == label)
+            
+            if with_ctrl:
                 label_name = LABELS_CTRL_INVERTED[label]
             else:
                 label_name = LABELS_INVERTED[label]
+                
             print("%d %s samples" % (count,label_name))
         print("")
+
         
 def get_gene_ratios(data, labels, ctrl_index=0):
     unique_labels = np.unique(labels)
-    output = np.zeros((unique_labels.shape[0],data.shape[1]))
+    output = np.zeros((unique_labels.shape[0], data.shape[1]))
+    
     for label in unique_labels:
         output[label] = np.mean(data[labels==label], axis=0)
-    output = output / output[ctrl_index,:]
+        
+    output = output / output[ctrl_index, :]
     return pd.DataFrame(data=output, columns=data.columns)

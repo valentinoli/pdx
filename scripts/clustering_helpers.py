@@ -6,25 +6,31 @@ from constants import *
 
 
 def cluster_(data, labels, method, n_clusters, with_score):
+    """Test a given clustering algorithm for a given number of clusters"""
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
-    elif method=='kmeans':
+        
+    elif method == 'kmeans':
         clus = cluster.KMeans(n_clusters=n_clusters, random_state=0)
-    elif method=='agglomerative':
+        
+    elif method == 'agglomerative':
         clus = cluster.AgglomerativeClustering(n_clusters=n_clusters, affinity='manhattan', linkage='single')
-    elif method=='spectral':
+        
+    elif method == 'spectral':
         clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)
-    elif method=='meanshift':
+        
+    elif method == 'meanshift':
         clus = cluster.MeanShift()
-    #if(method=="spectral"):
-        #print("before clustering")
+    
+    # Predict cluster labels for each sample
     predicted = clus.fit_predict(data)
-    #if(method=="spectral"):
-                #print("after clustering")
+    
+    # Evaluate performance
     if with_score:
         score = metrics.adjusted_rand_score(labels, predicted)
     else:
         score = None
+        
     silhouette = metrics.silhouette_score(data, predicted, metric='euclidean')
     db = metrics.davies_bouldin_score(data, predicted)
     return score, silhouette, db
@@ -38,7 +44,7 @@ def test_all_methods(data, labels=None, with_score=False):
         scores = []
         silhouettes = []
         dbs = []
-        for k in range(2,8):
+        for k in range(2, 8):
             score, silhouette, db = cluster_(data, labels, method, k, with_score)
             if with_score:
                 scores.append(score)
