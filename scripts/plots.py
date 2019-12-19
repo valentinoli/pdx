@@ -225,3 +225,16 @@ def pca_gene_composition(data, filename="pca_gene_composition", title="PCA gene 
     plt.xticks(range(len(data.columns.values)), data.columns.values, rotation=80, ha="left", fontsize=7)
     plt.savefig(f"{PLOT_DIR}/{filename}.svg")
     plt.show()
+    
+def plot_kmeans_patient(data, predicted, dim=3, title="K-means labeled patient data", filename="kmeans-labeled-patients"):
+    if dim == 2:
+        fig = sns.scatterplot(data["1st PC"], data["2nd PC"], hue=predicted, palette='Set1', s=100)
+        plt.title(title)
+        plt.xlabel("1st PC")
+        plt.ylabel("2nd PC")
+        plt.savefig(f"{PLOT_DIR}/{filename}.png")
+    elif dim == 3:
+        data['predicted'] = predicted
+        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color='predicted')
+        fig.show()
+ 
