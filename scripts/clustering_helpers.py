@@ -60,7 +60,6 @@ def run_cluster_analysis(data, labels=None, random_state={"spectral": 0, "kmeans
         # For each method, we try
         # k={2, 3, ..., 6} number of clusters
         for k in NUM_CLUSTERS:
-            
             ari_score, silhouette, db = cluster_(data, labels, method, k, random_state)
             
             aris.append(ari_score)
@@ -92,7 +91,7 @@ def optimize_ARI(X, y, method, n=100):
             if method == "kmeans":
                 clus = cluster.KMeans(n_clusters=j+2, random_state=i)
             elif method == "spectral":
-                clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=j+2, random_state=i)
+                clus = cluster.SpectralClustering(assign_labels="discretize", eigen_solver="lobpcg", n_clusters=j+2, random_state=i)
             else:
                 raise ValueError("Method not found: " + method)
                 

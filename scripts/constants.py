@@ -25,7 +25,7 @@ LINKAGES = ["ward", "average", "complete", "single"]
 
 # paths
 DATA_DIR = "../data"
-PLOT_DIR = DATA_DIR + "/plot"
+PLOT_DIR = "../results/plots"
 PKL_DIR = DATA_DIR + "/pickle"
 
 GENES_PATH = f"{DATA_DIR}/pdx/List of Genes Differentially Expressed upon Different Treatments.xlsx"
