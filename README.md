@@ -3,7 +3,9 @@
 Project in Machine Learning (CS-433)
 EPFL, 2019
 
-[Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
+* [Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
+* [Read the data analysis](https://github.com/valentinoli/pdx/blob/master/scripts/data_analysis.ipynb)
+* [Read the cluster analysis](https://github.com/valentinoli/pdx/blob/master/scripts/cluster_analysis.ipynb)
 
 ## Authors
 * Lisa Dratva, [lisa.dratva@epfl.ch](mailto:lisa.dratva@epfl.ch)
