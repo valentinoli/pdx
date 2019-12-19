@@ -11,6 +11,7 @@ We employ unsupervised machine learning techniques to cluster subtypes of estrog
 * [Read the cluster analysis](https://github.com/valentinoli/pdx/blob/master/scripts/cluster_analysis.ipynb)
 
 ## Architecture
+* [`results/`](results) directory is for output and plots
 * [`scripts/`](scripts) directory contains all the code
 * [`constants.py`](scripts/constants.py) includes constants used throughout the project
 * [`helpers.py`](scripts/helpers.py) includes various helper functions
