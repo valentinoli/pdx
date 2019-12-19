@@ -97,24 +97,3 @@ def describe_prediction(predicted, actual, with_ctrl=True):
                 
             print("%d %s samples" % (count,label_name))
         print("")
-
-        
-def get_gene_ratios(data, predicted, ctrl_index=0):
-    """
-    Evaluate the ratios of gene expressions per gene per cluster, relative to the control group cluster.
-    
-    :param data: standardized patients data
-    :param actual: actual labels
-    :param ctrl_index: index of the control group cluster
-
-    :returns: num_clusters x num_genes pandas DataFrame
-    """
-    unique_labels = np.unique(predicted)
-    output = np.zeros((unique_labels.shape[0], data.shape[1]))
-    
-    for label in unique_labels:
-        output[label] = np.mean(data[predicted==label], axis=0)
-        
-    output = output / output[ctrl_index, :]
-    return pd.DataFrame(data=output, columns=data.columns)
-
