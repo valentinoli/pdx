@@ -33,8 +33,13 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
     * [`seaborn`](https://seaborn.pydata.org/)
     * [`plotly` and `chart_studio`](https://help.plot.ly/)
 
+
+## Data
+[Download here](https://drive.google.com/drive/folders/1DIWbtS59fm01dXLuge8lY-37YGR33zmL?usp=sharing)
+
 ## Reproduction
 1. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
 2. Install the abovementioned libraries
-3. Run `data_analysis.ipynb` to reproduce results from the data analysis
-4. Run `cluster_analysis.ipynb` to reproduce the clustering results
+3. Add the `data/` folder to the root of the project
+4. Run `data_analysis.ipynb` to reproduce results from the data analysis
+5. Run `cluster_analysis.ipynb` to reproduce the clustering results
