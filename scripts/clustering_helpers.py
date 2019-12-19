@@ -26,7 +26,7 @@ def cluster_(data, labels, method, n_clusters, state):
         clus = cluster.AgglomerativeClustering(n_clusters=n_clusters, affinity="manhattan", linkage="single")
         
     elif method == "spectral":
-        clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=state[method])
+        clus = cluster.SpectralClustering(assign_labels="discretize", eigen_tol=1e-10, n_clusters=n_clusters, random_state=state[method])
     
     
     # Predict cluster labels for each sample
@@ -91,7 +91,7 @@ def optimize_ARI(X, y, method, n=100):
             if method == "kmeans":
                 clus = cluster.KMeans(n_clusters=j+2, random_state=i)
             elif method == "spectral":
-                clus = cluster.SpectralClustering(assign_labels="discretize", eigen_solver="lobpcg", n_clusters=j+2, random_state=i)
+                clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=j+2, random_state=i)
             else:
                 raise ValueError("Method not found: " + method)
                 
