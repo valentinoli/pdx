@@ -140,9 +140,17 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
         fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted")
         fig.show()
     elif dim == 2:
+        filename="labeled-patients"
         data = pd.DataFrame(pats_components[:, :2], columns=["1st PC", "2nd PC"])
-        data["predicted"] = patientLabels
-        fig = px.scatter(data, x="1st PC", y="2nd PC", color="predicted")
-        fig.show()        
-        fig.write_image(f"{PLOT_DIR}/{filename}.png")
+        fig = sns.scatterplot(
+            data["1st PC"],
+            data["2nd PC"],
+            hue=patientLabels,
+            palette='Set1',
+            s=100
+        )
+        plt.title("Labeled patient data")
+        plt.xlabel("1st PC")
+        plt.ylabel("2nd PC")
+        plt.savefig(f"{PLOT_DIR}/{filename}.png")
     return patientLabels
