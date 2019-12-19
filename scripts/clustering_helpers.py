@@ -119,7 +119,7 @@ def optimize_ARI(X, y, method, n=100):
             elif method == "spectral":
                 clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=j+2, random_state=i)
             else:
-                raise ValueError("Method not found: " + method)
+                raise ValueError("Method not found: " + str(method))
                 
             predicted = clus.fit_predict(X)
             score[i, j] = metrics.adjusted_rand_score(y, predicted)
@@ -146,7 +146,7 @@ def optimize_ARI(X, y, method, n=100):
     return optimum_state
 
 
-def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116, dim=3, filename="labeled-patients-2d-scatter"):
+def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116, dim=3, filename="labeled-patients-2d-scatter", title="Labeled patients 2D scatter"):
     """Find best clusters on PDX data, apply those cluster centers on patient data.
         
     :param X_pdx_stdized_noctrl: standardized pdx data for clustering (no ctrl group)
@@ -170,8 +170,9 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
     if dim == 3:
         data = pd.DataFrame(pats_components[:, :3], columns=["1st PC", "2nd PC", "3rd PC"])
         data["predicted"] = patientLabels
-        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted")
+        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted",opacity=0.85,title=title)
         fig.show()
+        py.plot(fig, filename=filename)
     elif dim == 2:
         filename="labeled-patients"
         data = pd.DataFrame(pats_components[:, :2], columns=["1st PC", "2nd PC"])

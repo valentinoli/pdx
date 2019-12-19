@@ -235,6 +235,7 @@ def plot_kmeans_patient(data, predicted, dim=3, title="K-means labeled patient d
         plt.savefig(f"{PLOT_DIR}/{filename}.png")
     elif dim == 3:
         data['predicted'] = predicted
-        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color='predicted')
+        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color='predicted', opacity=0.5,title=title)
         fig.show()
+        py.plot(fig, filename=filename)
  
