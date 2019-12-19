@@ -1,6 +1,7 @@
 # Clustering estrogen receptor positive breast cancer tumors based on hormonal response type
 
 Project in Machine Learning (CS-433)
+
 EPFL, 2019
 
 ## Abstract
@@ -48,7 +49,7 @@ We employ unsupervised machine learning techniques to cluster subtypes of estrog
 * Valentin Oliver Loftsson, [valentin.loftsson@epfl.ch](mailto:valentin.loftsson@epfl.ch)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 We thank [Fabio De Martino](https://people.epfl.ch/fabio.demartino), our supervisor at the [BRISKEN lab](https://www.epfl.ch/labs/brisken-lab/), for his constant guidance and support throughout the learning process.
