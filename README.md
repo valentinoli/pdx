@@ -3,7 +3,9 @@
 Project in Machine Learning (CS-433)
 EPFL, 2019
 
-[Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
+* [Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
+* [Read the data analysis](https://github.com/valentinoli/pdx/blob/master/scripts/data_analysis.ipynb)
+* [Read the cluster analysis](https://github.com/valentinoli/pdx/blob/master/scripts/cluster_analysis.ipynb)
 
 ## Authors
 * Lisa Dratva, [lisa.dratva@epfl.ch](mailto:lisa.dratva@epfl.ch)
@@ -33,8 +35,14 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
     * [`seaborn`](https://seaborn.pydata.org/)
     * [`plotly` and `chart_studio`](https://help.plot.ly/)
 
+
+## Data
+[Download here](https://drive.google.com/drive/folders/1DIWbtS59fm01dXLuge8lY-37YGR33zmL?usp=sharing)
+
 ## Reproduction
-1. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
-2. Install the abovementioned libraries
-3. Run `data_analysis.ipynb` to reproduce results from the data analysis
-4. Run `cluster_analysis.ipynb` to reproduce the clustering results
+1. Clone or fork the repository
+2. Download the data and add the `data/` folder to the root of the project
+3. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
+4. Install the abovementioned libraries
+5. Run `data_analysis.ipynb` to reproduce the data analysis results
+6. Run `cluster_analysis.ipynb` to reproduce the cluster analysis results
