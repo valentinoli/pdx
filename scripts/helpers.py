@@ -77,7 +77,8 @@ def describe_prediction(predicted, actual, with_ctrl=True):
     "Cluster 0 contains:
      9 dht samples
      2 e2 samples
-     3 p4 samples"
+     3 p4 samples".
+     
     :param predicted: predicted labels
     :param actual: actual labels (supervised data)
     :param with_ctrl: boolean, True if actual labels contain control group
@@ -101,9 +102,11 @@ def describe_prediction(predicted, actual, with_ctrl=True):
 def get_gene_ratios(data, predicted, ctrl_index=0):
     """
     Evaluate the ratios of gene expressions per gene per cluster, relative to the control group cluster.
+    
     :param data: standardized patients data
     :param actual: actual labels
     :param ctrl_index: index of the control group cluster
+
     :returns: num_clusters x num_genes pandas DataFrame
     """
     unique_labels = np.unique(predicted)

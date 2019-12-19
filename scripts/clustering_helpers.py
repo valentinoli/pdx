@@ -17,7 +17,16 @@ def scores_to_dataframe(scores):
 
 
 def cluster_(data, labels, method, n_clusters, state):
-    """Test a given clustering algorithm for a given number of clusters, with a provided initial state. Labels correspond to the actual datapoints' labels in the supervised clustering."""
+    """Test a given clustering algorithm for a given number of clusters, with a provided initial state.
+    
+    :param data: data for clustering
+    :param labels: actual labels (supervised clustering only)
+    :param method: clustering method chosen from CLUSTERING_METHODS
+    :param n_clusters: predefined number of clusters
+    :param state: dict where keys are clustering methods and values are random_states to be used with the clustering methods
+    
+    :returns: (ari, silhouette, DB score) where the first one is None for unsupervised clustering and the last two are None for supervised clustering
+    """
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
         
@@ -51,7 +60,14 @@ def cluster_(data, labels, method, n_clusters, state):
 
 
 def run_cluster_analysis(data, labels=None, random_state={"spectral": 0, "kmeans": 0}):
-    """Run all cluster methods on the given data and return evaluation metrics in the form of a dict where keys are (method, evaluation metric) and values correspond to lists of the evaluation metric per k = 2 to 6 with the given method."""
+    """Evaluate all cluster methods on the given data.
+    
+    :param data: data for clustering
+    :param labels: actual labels (supervised clustering only)
+    :param random_state: dict where keys are clustering methods and values are random_states to be used with the clustering methods
+    
+    :returns: evaluation metrics in the form of a dict where keys are (method, evaluation metric) and values correspond to lists of the evaluation metric per k = 2 to 6 with the given method
+    """
     method_scores = {}
     
     for method in CLUSTERING_METHODS:
@@ -83,7 +99,15 @@ def run_cluster_analysis(data, labels=None, random_state={"spectral": 0, "kmeans
                 
 def optimize_ARI(X, y, method, n=100):
     """Visualize the best initial centroids for a clustering method,
-    optimized for the ARI score; return optimum random state."""
+    optimized for the ARI score. 
+ 
+    :param X: data for clustering
+    :param y: actual labels (supervised clustering only)
+    :param method: clustering method chosen from CLUSTERING_METHODS
+    :param n: number of random_states to be considered for the choice of initial centroids
+    
+    :returns: optimal random_state as an integer
+    """
     score = np.zeros((n, len(NUM_CLUSTERS)))
     
     # Compute scores for different random centroid initializations
@@ -124,7 +148,16 @@ def optimize_ARI(X, y, method, n=100):
 
 def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116, dim=3, filename="labeled-patients-2d-scatter"):
     """Find best clusters on PDX data, apply those cluster centers on patient data.
-    Clusters are fitted to standardized PDX data without controls."""
+        
+    :param X_pdx_stdized_noctrl: standardized pdx data for clustering (no ctrl group)
+    :param y_pdx_noctrl: actual pdx data labels (no ctrl group)
+    :param pats_log_stdized: log standardized patients data  
+    :param state: random_state to be used with K-means
+    :param dim: dimension of the data clustering visualisation
+    :param filename: name of the file where the output visualisation is saved to be used in the report
+    
+    :returns: predicted labels of the patients dataset
+    """
     # get optimal cluster
     clus = cluster.KMeans(n_clusters=3, random_state=state)
     predicted = clus.fit_predict(X_pdx_stdized_noctrl)
