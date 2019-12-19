@@ -226,7 +226,9 @@ def pca_gene_composition(data, filename="pca_gene_composition", title="PCA gene 
     plt.savefig(f"{PLOT_DIR}/{filename}.svg")
     plt.show()
     
+    
 def plot_kmeans_patient(data, predicted, dim=3, title="K-means labeled patient data", filename="kmeans-labeled-patients"):
+    """Visualize K-means clustering using PCA"""
     if dim == 2:
         fig = sns.scatterplot(data["1st PC"], data["2nd PC"], hue=predicted, palette='Set1', s=100)
         plt.title(title)
