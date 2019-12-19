@@ -111,7 +111,7 @@ def optimize_ARI(X, y, n=100):
     return score
 
 
-def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116):
+def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116, dim=3, filename="labeled-patients-2d-scatter"):
     """Find best clusters on PDX data, apply those cluster centers on patient data.
     Clusters are fitted to standardized PDX data without controls."""
     # get optimal cluster
@@ -125,8 +125,15 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
     patientLabels = clus.predict(pats_log_stdized)
     pca = PCA()
     pats_components = pca.fit_transform(pats_log_stdized)
-    data = pd.DataFrame(pats_components[:, :3], columns=["1st PC", "2nd PC", "3rd PC"])
-    data["predicted"] = patientLabels
-    fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted")
-    fig.show()
+    if dim == 3:
+        data = pd.DataFrame(pats_components[:, :3], columns=["1st PC", "2nd PC", "3rd PC"])
+        data["predicted"] = patientLabels
+        fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted")
+        fig.show()
+    elif dim == 2:
+        data = pd.DataFrame(pats_components[:, :2], columns=["1st PC", "2nd PC"])
+        data["predicted"] = patientLabels
+        fig = px.scatter(data, x="1st PC", y="2nd PC", color="predicted")
+        fig.show()        
+        fig.write_image(f"{PLOT_DIR}/{filename}.png")
     return patientLabels
