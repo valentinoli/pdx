@@ -171,7 +171,6 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
         data = pd.DataFrame(pats_components[:, :3], columns=["1st PC", "2nd PC", "3rd PC"])
         data["predicted"] = patientLabels
         fig = px.scatter_3d(data, x="1st PC", y="2nd PC", z="3rd PC", color="predicted",opacity=0.85,title=title)
-        fig.show()
         py.plot(fig, filename=filename)
     elif dim == 2:
         filename="labeled-patients"
