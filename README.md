@@ -38,8 +38,9 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
 [Download here](https://drive.google.com/drive/folders/1DIWbtS59fm01dXLuge8lY-37YGR33zmL?usp=sharing)
 
 ## Reproduction
-1. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
-2. Install the abovementioned libraries
-3. Add the `data/` folder to the root of the project
-4. Run `data_analysis.ipynb` to reproduce results from the data analysis
-5. Run `cluster_analysis.ipynb` to reproduce the clustering results
+1. Clone or fork the repository
+2. Download the data and add the `data/` folder to the root of the project
+3. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
+4. Install the abovementioned libraries
+5. Run `data_analysis.ipynb` to reproduce the data analysis results
+6. Run `cluster_analysis.ipynb` to reproduce the cluster analysis results
