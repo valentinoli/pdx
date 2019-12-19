@@ -17,7 +17,7 @@ def scores_to_dataframe(scores):
 
 
 def cluster_(data, labels, method, n_clusters, state):
-    """Test a given clustering algorithm for a given number of clusters, with a provided initial state. Labels correspond to the actual datapoints' labels in the supervised clustering. Return our chosen evaluation metrics - ari, silhouette, db - where: ari is valid with supervised clustering only, and silhouette and DB are valid with unsupervised clustering only."""
+    """Test a given clustering algorithm for a given number of clusters, with a provided initial state. Labels correspond to the actual datapoints' labels in the supervised clustering."""
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
         
