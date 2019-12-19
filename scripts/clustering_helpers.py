@@ -10,22 +10,23 @@ def scores_to_dataframe(scores):
     res = pd.DataFrame(scores, index=NUM_CLUSTERS)
     res.index.name = "k"
     res = res.swaplevel(axis=1)
+    res = round(res, 3)
     return res
 
 
-def cluster_(data, labels, method, n_clusters):
+def cluster_(data, labels, method, n_clusters, state):
     """Test a given clustering algorithm for a given number of clusters"""
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
         
     elif method == "kmeans":
-        clus = cluster.KMeans(n_clusters=n_clusters, random_state=0)
-        
+        clus = cluster.KMeans(n_clusters=n_clusters, random_state=state[method])
+
     elif method == "agglomerative":
         clus = cluster.AgglomerativeClustering(n_clusters=n_clusters, affinity="manhattan", linkage="single")
         
     elif method == "spectral":
-        clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=0)
+        clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=n_clusters, random_state=state[method])
     
     
     # Predict cluster labels for each sample
@@ -47,7 +48,7 @@ def cluster_(data, labels, method, n_clusters):
     return ari, silhouette, db
 
 
-def run_cluster_analysis(data, labels=None):
+def run_cluster_analysis(data, labels=None, random_state={"spectral": 0, "kmeans": 0}):
     """Run all cluster methods on the given data and return evaluation metrics"""
     method_scores = {}
     
@@ -59,7 +60,8 @@ def run_cluster_analysis(data, labels=None):
         # For each method, we try
         # k={2, 3, ..., 6} number of clusters
         for k in NUM_CLUSTERS:
-            ari_score, silhouette, db = cluster_(data, labels, method, k)
+            
+            ari_score, silhouette, db = cluster_(data, labels, method, k, random_state)
             
             aris.append(ari_score)
             silhouettes.append(silhouette)
@@ -78,16 +80,22 @@ def run_cluster_analysis(data, labels=None):
     return scores_df
 
                 
-def optimize_ARI(X, y, n=100):
-    """Visualize the best initial centroids for K-means,
-    optimized for the ARI score; return all scores."""
+def optimize_ARI(X, y, method, n=100):
+    """Visualize the best initial centroids for a clustering method,
+    optimized for the ARI score; return optimum random state."""
     score = np.zeros((n, len(NUM_CLUSTERS)))
     
     # Compute scores for different random centroid initializations
     # and for n_clusters={2, 3, ..., 6}
     for j in range(score.shape[1]):
         for i in range(score.shape[0]):
-            clus = cluster.KMeans(n_clusters=j+2, random_state=i)
+            if method == "kmeans":
+                clus = cluster.KMeans(n_clusters=j+2, random_state=i)
+            elif method == "spectral":
+                clus = cluster.SpectralClustering(assign_labels="discretize", n_clusters=j+2, random_state=i)
+            else:
+                raise ValueError("Method not found: " + method)
+                
             predicted = clus.fit_predict(X)
             score[i, j] = metrics.adjusted_rand_score(y, predicted)
 
@@ -95,20 +103,22 @@ def optimize_ARI(X, y, n=100):
     for j in range(score.shape[1]):
         plt.plot(score[:, j])
     
-    plt.legend(["2", "3", "4", "5", "6"])
+    plt.legend(list(NUM_CLUSTERS))
     plt.ylim(bottom=0)
     plt.xlabel("Random state initializer")
     plt.ylabel("ARI score")
     plt.show()
     
+    optimum_state = np.where(score == score.max())[0][0]
+    
     # Print results
-    print(f"Max score: {score.max()}")
-    print(f"Position of best score: {np.where(score == score.max())}")
+    print(f"{method} clustering, max score: {score.max()}")
+    print(f"Optimum random state resulting in the best ARI score: {optimum_state}")
 
     for k in range(score.shape[1]):
         print(f"Max ARI score for {k+2} clusters: {np.round(100 * score[:, k].max())}%")
 
-    return score
+    return optimum_state
 
 
 def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log_stdized, state=116):
