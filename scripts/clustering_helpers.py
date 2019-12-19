@@ -1,3 +1,5 @@
+"""Various helper functions concerning clustering methods"""
+
 from sklearn import cluster, metrics
 from sklearn.decomposition import PCA
 
@@ -15,7 +17,7 @@ def scores_to_dataframe(scores):
 
 
 def cluster_(data, labels, method, n_clusters, state):
-    """Test a given clustering algorithm for a given number of clusters"""
+    """Test a given clustering algorithm for a given number of clusters, with a provided initial state. Labels correspond to the actual datapoints' labels in the supervised clustering."""
     if method not in CLUSTERING_METHODS:
         raise ValueError("Method not found: " + method)
         
@@ -49,7 +51,7 @@ def cluster_(data, labels, method, n_clusters, state):
 
 
 def run_cluster_analysis(data, labels=None, random_state={"spectral": 0, "kmeans": 0}):
-    """Run all cluster methods on the given data and return evaluation metrics"""
+    """Run all cluster methods on the given data and return evaluation metrics in the form of a dict where keys are (method, evaluation metric) and values correspond to lists of the evaluation metric per k = 2 to 6 with the given method."""
     method_scores = {}
     
     for method in CLUSTERING_METHODS:
