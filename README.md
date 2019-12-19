@@ -35,6 +35,7 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
     * `chart_studio`
 
 ## Reproduction
-1. Install the abovementioned libraries
-2. Run `data_analysis.ipynb` to reproduce results from the data analysis
-3. Run `cluster_analysis.ipynb` to reproduce the clustering results
+1. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
+2. Install the abovementioned libraries
+3. Run `data_analysis.ipynb` to reproduce results from the data analysis
+4. Run `cluster_analysis.ipynb` to reproduce the clustering results
