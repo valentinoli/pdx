@@ -3,17 +3,12 @@
 Project in Machine Learning (CS-433)
 EPFL, 2019
 
+## Abstract
+We employ unsupervised machine learning techniques to cluster subtypes of estrogen receptor positive breast cancer, which is the most common variant worldwide. Clustering is done according to hormone responses obtained from _in vivo_ models of patient-derived xenografts. Our results facilitate more targeted treatment of patients, responding to the urgent need for personalized medicine to treat breast cancer.
+
 * [Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
 * [Read the data analysis](https://github.com/valentinoli/pdx/blob/master/scripts/data_analysis.ipynb)
 * [Read the cluster analysis](https://github.com/valentinoli/pdx/blob/master/scripts/cluster_analysis.ipynb)
-
-## Authors
-* Lisa Dratva, [lisa.dratva@epfl.ch](mailto:lisa.dratva@epfl.ch)
-* Michal Pleskowicz, [michal.pleskowicz@epfl.ch](mailto:michal.pleskowicz@epfl.ch)
-* Valentin Oliver Loftsson, [valentin.loftsson@epfl.ch](mailto:valentin.loftsson@epfl.ch)
-
-## Abstract
-We employ unsupervised machine learning techniques to cluster subtypes of the most common breast cancer variant. Our results facilitate more targeted treatment of patients, responding to the urgent need for personalized medicine to treat breast cancer.
 
 ## Architecture
 * [`scripts/`](scripts) directory contains all the code
@@ -46,3 +41,14 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
 4. Install the abovementioned libraries
 5. Run `data_analysis.ipynb` to reproduce the data analysis results
 6. Run `cluster_analysis.ipynb` to reproduce the cluster analysis results
+
+## Authors
+* Lisa Dratva, [lisa.dratva@epfl.ch](mailto:lisa.dratva@epfl.ch)
+* Michal Pleskowicz, [michal.pleskowicz@epfl.ch](mailto:michal.pleskowicz@epfl.ch)
+* Valentin Oliver Loftsson, [valentin.loftsson@epfl.ch](mailto:valentin.loftsson@epfl.ch)
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+We thank [Fabio De Martino](https://people.epfl.ch/fabio.demartino), our supervisor at the [BRISKEN lab](https://www.epfl.ch/labs/brisken-lab/), for his constant guidance and support throughout the learning process.
