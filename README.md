@@ -25,14 +25,13 @@ We employ unsupervised machine learning techniques to cluster subtypes of the mo
 
 ## Dependencies
 * Data handling and ML libraries:
-    * `sklearn` (v. 0.21.3)
-    * `pandas` (v. 0.25.1)
-    * `numpy` (v. 1.16.5)
+    * [`sklearn`](https://scikit-learn.org/stable/) (v. 0.21.3)
+    * [`pandas`](https://pandas.pydata.org/) (v. 0.25.1)
+    * [`numpy`](https://numpy.org/) (v. 1.16.5)
 * Plotting libraries:
-    * `matplotlib`
-    * `seaborn`
-    * `plotly`
-    * `chart_studio`
+    * [`matplotlib`](https://matplotlib.org/)
+    * [`seaborn`](https://seaborn.pydata.org/)
+    * [`plotly` and `chart_studio`](https://help.plot.ly/)
 
 ## Reproduction
 1. Install [Jupyter Notebook](https://jupyter.readthedocs.io/en/latest/install.html)
