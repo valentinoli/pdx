@@ -3,7 +3,7 @@
 Project in Machine Learning (CS-433)
 EPFL, 2019
 
-[Read the report](report/report.pdf)
+[Read the report](https://github.com/valentinoli/pdx/raw/master/report/report.pdf)
 
 ## Authors
 * Lisa Dratva, [lisa.dratva@epfl.ch](mailto:lisa.dratva@epfl.ch)
