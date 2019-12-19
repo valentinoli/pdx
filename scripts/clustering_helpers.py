@@ -127,8 +127,6 @@ def apply_pdx_centroids_on_patients(X_pdx_stdized_noctrl, y_pdx_noctrl, pats_log
     clus = cluster.KMeans(n_clusters=3, random_state=state)
     predicted = clus.fit_predict(X_pdx_stdized_noctrl)
     ari_score = metrics.adjusted_rand_score(y_pdx_noctrl, predicted)
-    print(f"Test ARI score: {ari_score}")
-    print("Make sure the score == 1")
     
     # predict patient labels
     patientLabels = clus.predict(pats_log_stdized)
